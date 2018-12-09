@@ -1,87 +1,59 @@
 
 import anyconfig
-import requests
-import xmltodict
+import json
 
-class GoodreadsBook:
-    def __init__(self, goodreads_book):
-        self._book_info = goodreads_book
-        # odict_keys(['id', 'isbn', 'isbn13', 'text_reviews_count', 'uri', 'title', 'title_without_series', 'image_url', 'small_image_url', 'large_image_url', 'link', 'num_pages', 'format', 'edition_information', 'publisher', 'publication_day', 'publication_year', 'publication_month', 'average_rating', 'ratings_count', 'description', 'authors', 'published', 'work'])
+from goodreads_frontend import BookShelf
 
-    @property
-    def isbn(self):
-        return self._book_info['isbn']
+class GoodreadsClient:
+    def __init__(self, api_key):
+        self._params = {'key': api_key}
 
-    @property
-    def isbn13(self):
-        return self._book_info['isbn13']
+    def shelf(self, shelf_id):
+        return BookShelf(self, shelf_id)
 
     @property
-    def title(self):
-        return self._book_info['title_without_series']
+    def params(self):
+        return self._params.copy()
 
-    @property
-    def url(self):
-        return self._book_info['link']
-
-    @property
-    def author(self):
-        return self._book_info['authors']
-
-    @property
-    def description(self):
-        return self._book_info['description']
-
-    def get_internal_representation(self):
-        return self._book_info
-
-def list_books_in_shelf(shelf_id, api_key):
-    """
-    Generator to lazily return all books in a given shelf (by id)
-
-    TODO: Should probably wrap the returned books in a 'Book' object
-    """
-    list_url_format = r"https://goodreads.com/review/list/{}/?page={}&format=xml"
-    api_params = {'key': api_key}
-
-    resp = requests.get(list_url_format.format(shelf_id, 1), params=api_params)
-    res = xmltodict.parse(resp.content)['GoodreadsResponse']['books']
-    for book in res['book']:
-        yield GoodreadsBook(book)
-
-    current_page = 1
-    num_pages_in_list = int(res['@numpages'])
-    while current_page < num_pages_in_list:
-        current_page += 1
-        resp = requests.get(list_url_format.format(shelf_id, current_page), params=api_params)
-        for book in xmltodict.parse(resp.content)['GoodreadsResponse']['books']['book']:
-            yield GoodreadsBook(book)
 
 def generate_book_filter(filter_list):
     """
     Produces the filter function to remove specific books from the goodreads feed
     """
-    books = list(entry['title'] for entry in filter_list if ('title' in entry))
+    filtered_titles = list(entry['title'] for entry in filter_list if ('title' in entry))
 
     def _book_filter(book):
-        book_found_in_filter_list = book.title in books
-        return not book_found_in_filter_list
+        book_filtered_by_title = book.title in filtered_titles
+        return not book_filtered_by_title
     return _book_filter
 
 
-conf = anyconfig.load("conf.yaml")
-api_key = conf.get('api_key')
+def produce_test_data(out, client, shelf_list, filter_list):
+    book_filter = generate_book_filter(filter_list)
+    all_books = []
 
+    def _to_json(book):
+        return {'title': book.title, 'author': book.author, 'desc': book.description, 'url': book.url, 'isbn': book.isbn, 'id': book.id}
+
+    for shelf_id in shelf_list:
+        all_books.extend(_to_json(book) for book in filter(book_filter, client.shelf(shelf_id)))
+
+    out.write(json.dumps(all_books, sort_keys=True, indent=4))
+
+
+conf = anyconfig.load("conf.yaml")
 filter_list = conf.get('filter', [])
 shelves = conf.get('shelves', [])
 
-with open("book_list.txt", 'w') as f:
-    book_filter = generate_book_filter(filter_list)
+gc = GoodreadsClient(conf.get('api_key'))
 
-    for shelf in shelves:
-        for book in filter(book_filter, list_books_in_shelf(shelf, api_key)):
-            f.write("{}\n  {}\n".format(book.title, book.url))
+import os
+book_list = os.path.join("test_data", "books.json")
+if not os.path.exists("test_data"):
+    os.mkdir("test_data")
+with open(book_list, 'w') as f:
+    produce_test_data(f, gc, shelves, filter_list)
 
-
+# NOTE: These aren't necessary for me and the development purposes, but would be necessary for any general use case
 # TODO: Figure out how to filter shelves (ie. don't include any books that appear on this shelf)
 # TODO: Improve filtering to allow for removing individual books based on author, etc.
