@@ -1,0 +1,5 @@
+Filter out html/etc. tags from the descriptions
+Figure out if there's any way I can determine which books are "non-fiction"
+  The approach I'm currently taking won't work for fiction books (although it is important to balance these in)
+Implement the ML approaches necessary to extract relevant "topical" information from the descriptions
+Introduce a "ml-frontend" interface api and convert the goodreads code to utilizing it
