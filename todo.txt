@@ -1,5 +1,31 @@
-Filter out html/etc. tags from the descriptions
-Figure out if there's any way I can determine which books are "non-fiction"
-  The approach I'm currently taking won't work for fiction books (although it is important to balance these in)
-Implement the ML approaches necessary to extract relevant "topical" information from the descriptions
-Introduce a "ml-frontend" interface api and convert the goodreads code to utilizing it
+
+Short-term:
+  Attempt to produce an ml model that will classify books as "fiction" or "non-fiction"
+    TODO: We would probably want to base this primarily off of the description
+    NOTE: This will be a good "introduction" into setting up the ml framework, even if it doesn't work
+  Look at using https://openlibrary.org/dev/docs/api/books to extract more information from the books
+    NOTE: Interestingly it provides a "subject" field as part of the response, which may be useful
+    NOTE: See also if we can't use the "classifications" field to filter out non-fiction books
+    TODO: This won't actually work as not all books have isbn fields from goodreads (for some reason)
+  Figure out if there's any way I can determine which books are "non-fiction"
+    The approach I'm currently taking won't work for fiction books (although it is important to balance these in)
+    I don't have a way of filtering non-fiction books with a simple api call
+      Either produce another ml algorithm to separate fiction and non-fiction, manually remove the fiction from the training sets, or just roll with it
+  Implement the ML approaches necessary to extract relevant "topical" information from the descriptions
+  Add in logging instead of print messages
+
+Long-term:
+  Introduce a "ml-frontend" interface api and convert the goodreads code to utilizing it
+    Extract the existing codebase into the "goodreads_frontend" module
+      Rewrite querying code to utilize the interface (allow for querying from alternate "warehouses")
+  Start working on creating the "global knowledge graph"
+    TODO: Figure out what we'll need to produce in order to be effective
+    IDEA 1: Parse out popular wikipedia articles
+      Produce graph of topics extracted from the article (where edge = appear in same article)
+      Issues: May not cover total knowledge well, may not be effective at extracting new topics (too broad?)
+  Clean up the code base
+  Reduce technical debt
+    Introduce ability to filter books based on shelves to the goodreads frontend
+    Allow for filtering individual books based on the author, etc.
+    Rework the goodreads api to communicate through a singular communicator object
+    Improve the `BookShelf` object to allow for lazy memoization of results (ie. minimize network usage)

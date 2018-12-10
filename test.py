@@ -1,8 +1,9 @@
 
 import anyconfig
 import json
+import re
 
-from goodreads_frontend import BookShelf
+from goodreads_frontend.api import BookShelf
 
 class GoodreadsClient:
     def __init__(self, api_key):
@@ -23,8 +24,10 @@ def generate_book_filter(filter_list):
     filtered_titles = list(entry['title'] for entry in filter_list if ('title' in entry))
 
     def _book_filter(book):
+        book_has_no_description = book.description is None
         book_filtered_by_title = book.title in filtered_titles
-        return not book_filtered_by_title
+        return not (book_filtered_by_title or book_has_no_description)
+
     return _book_filter
 
 
@@ -32,8 +35,18 @@ def produce_test_data(out, client, shelf_list, filter_list):
     book_filter = generate_book_filter(filter_list)
     all_books = []
 
+    html_stripper = re.compile('<.*?>')
+    # url_stripper = re.compile('https?:\/\/\S+')
+
     def _to_json(book):
-        return {'title': book.title, 'author': book.author, 'desc': book.description, 'url': book.url, 'isbn': book.isbn, 'id': book.id}
+        isbn = book.isbn
+        desc = re.sub(html_stripper, '', book.description)
+
+        json_dict =  {'title': book.title, 'author': book.author, 'desc': desc, 'url': book.url, 'id': book.id}
+        if isinstance(isbn, str) or (isinstance(isbn, dict) and not isbn.get('@nil', False)):
+            json_dict['isbn'] = isbn
+
+        return json_dict
 
     for shelf_id in shelf_list:
         all_books.extend(_to_json(book) for book in filter(book_filter, client.shelf(shelf_id)))
@@ -48,7 +61,7 @@ shelves = conf.get('shelves', [])
 gc = GoodreadsClient(conf.get('api_key'))
 
 import os
-book_list = os.path.join("test_data", "books.json")
+book_list = os.path.join("test_data", "goodreads_books.json")
 if not os.path.exists("test_data"):
     os.mkdir("test_data")
 with open(book_list, 'w') as f:
