@@ -40,7 +40,7 @@ class ShelvedBook:
     def description(self):
         return self._book_info['description']
 
-    def get_internal_representation(self):
+    def get_ir(self):
         return self._book_info
 
 
