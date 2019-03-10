@@ -30,3 +30,5 @@ Future-work:
     NOTE: This will be a good "introduction" into setting up the ml framework, even if it doesn't work
   Look into https://maciejkula.github.io/spotlight/index.html
   Augment the recommendation model to work on fiction books
+  Implement "google maps" style zooming system to the knowledge graph, whereby the broadest topics are only visibile at the "lowest zoom"
+  Migrate the backend work to AWS
