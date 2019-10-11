@@ -9,14 +9,18 @@ Phase 1: Select "best" book from options, hosted with GCP
   <- learn about recommendation systems and how they typically represent the problem
   <- improve organization of these "phase" lists with todo integration (separate "plan" folder?)
 
-  Convert api to use: https://pypi.org/project/goodreads-api-client/
-    Get api key from goodreads
-  Ensure that the library and choices information can be gotten from goodreads
-    https://www.goodreads.com/api/index#book.show_by_isbn
-    might end up completely rewritting project
-  setup gcp project with basic UI
-    figure out how to push configuration to gcp too (without publishing api key)
-      <- can probably just duplicate that (not going to change)
+
+  architecture gcp project
+    how is configuration stored/pushed
+      <- how are api keys stored
+    what will api look like
+    service flow (particularly with goodreads querying)
+      <- need to cache goodreads results
+      <- need to be flexible to allow for ml work in the future
+  setup github code to prepare for GCP
+    make experimental/docs/lib folders and move everything into there
+    delete `goodreads_frontend`
+  setup gcp project with extremely basic UI
   setup privacy protection and security "stuff" on the project
   create test data set of books that i already own
   create system that reads everything from goodreads every time
