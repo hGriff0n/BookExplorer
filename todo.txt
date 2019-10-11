@@ -1,4 +1,45 @@
 
+The goal of this project is to produce a recommendation engine that recommends books
+based on whether similar topics already exist in the user's library or not. Ideally,
+the recommended book should be on a completely "new" topic to the user.
+
+Phase 1: Select "best" book from options, hosted with GCP
+  "best" is to be considered as "least similar" of the options
+  can be possibly done with a simple heuristic, minimal ml at worst
+  <- learn about recommendation systems and how they typically represent the problem
+  <- improve organization of these "phase" lists with todo integration (separate "plan" folder?)
+
+  Convert api to use: https://pypi.org/project/goodreads-api-client/
+    Get api key from goodreads
+  Ensure that the library and choices information can be gotten from goodreads
+    https://www.goodreads.com/api/index#book.show_by_isbn
+    might end up completely rewritting project
+  setup gcp project with basic UI
+    figure out how to push configuration to gcp too (without publishing api key)
+      <- can probably just duplicate that (not going to change)
+  setup privacy protection and security "stuff" on the project
+  create test data set of books that i already own
+  create system that reads everything from goodreads every time
+    automatically remove test books from the "library" information
+  test system against "choices.csv" dataset
+    first remove the "remove test books" code
+    buy the book that gets recommended from it
+  integrate with caching/storage to maintain user data between requests
+  allow for specifying a different set of options
+
+Phase 2: Select "best" book (user doesn't give set of options)
+  can still maintain the ability to restrict to a list
+  active development of product specific ml models
+
+Phase 3: Select "topic" to considered
+  general conception of what "topics" are in the library and what aren't
+
+General Work:
+  UI Improvements
+  Interesting Graph Explorations
+  Library Integrations
+
+TODO: Go over this to see what we are keeping and when
 Short-term:
   Add "fiction" classification to the config file and split my goodreads data on that
   Look at using https://openlibrary.org/dev/docs/api/books to extract more information from the books
@@ -32,3 +73,11 @@ Future-work:
   Augment the recommendation model to work on fiction books
   Implement "google maps" style zooming system to the knowledge graph, whereby the broadest topics are only visibile at the "lowest zoom"
   Migrate the backend work to AWS
+
+goodreads genres:
+  https://www.goodreads.com/genres
+  https://www.goodreads.com/genres
+
+genre classification with ml:
+  https://github.com/ahegel/genre-ML-classification
+  https://www.datacamp.com/community/tutorials/ML-NLP-lyric-analysis

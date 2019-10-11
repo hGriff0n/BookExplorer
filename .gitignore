@@ -61,3 +61,5 @@ target/
 # BookExplorer
 test_data/
 fiction_filter*/data/
+
+conf.yaml
