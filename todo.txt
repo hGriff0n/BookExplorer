@@ -10,6 +10,9 @@ Phase 1: Select "best" book from options, hosted with GCP
   <- improve organization of these "phase" lists with todo integration (separate "plan" folder?)
 
 
+  setting up in gcp
+    how do I reload the server
+
   architecture gcp project
     how is configuration stored/pushed
       <- how are api keys stored

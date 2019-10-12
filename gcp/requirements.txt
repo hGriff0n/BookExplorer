@@ -1,1 +1,5 @@
 Flask==1.1.1
+google-python-cloud-debugger
+google-cloud-profiler
+google-cloud-logging
+google-cloud-error-reporting
