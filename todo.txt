@@ -10,19 +10,13 @@ Phase 1: Select "best" book from options, hosted with GCP
   <- improve organization of these "phase" lists with todo integration (separate "plan" folder?)
 
 
-  setting up in gcp
-    how do i set deployment to not automatically forward all traffic to new deployment
-
-  architecture gcp project
-    service flow (particularly with goodreads querying)
-      <- need to cache goodreads results
-      <- need to be flexible to allow for ml work in the future
-
   work on gcp UI
     figure out how to produce nice webpages instead of just returning text
-  setup privacy protection and security "stuff" on the project
 
   create test data set of books that i already own
+    <- this will be used to measure the performance of the algorithm
+    <- need a balance of unique and similar titles
+      <- can even pick titles i don't have but know are similar/different if i need more data
   create system that reads everything from goodreads every time
     automatically remove test books from the "library" information
   test system against "choices.csv" dataset

@@ -1,0 +1,1 @@
+--no-promote: To deploy without automatically routing all traffic to the new version, use the `no-promote` flag to `gcloud app deploy`
