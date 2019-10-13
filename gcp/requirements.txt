@@ -1,5 +1,11 @@
 Flask==1.1.1
+
+# Google Cloud APIs
 google-python-cloud-debugger
 google-cloud-profiler
 google-cloud-logging
 google-cloud-error-reporting
+google-cloud-firestore
+
+# Goodreads APIs
+Goodreads
