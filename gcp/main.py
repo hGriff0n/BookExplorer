@@ -24,7 +24,7 @@ gc = goodreads.Client(GOODREADS_API_KEY, GOODREADS_SECRET_VALUE)
 # Get the selection set that we are choosing from
 # TODO: Allow for per-user lists
 selections = [gc.book(isbn=isbn) for isbn in config.document('choices').get().to_dict()['isbn']]
-# For developing the algorithm use the above line, for "production" use the above line
+# For developing the algorithm use the below line, for "production" use the above line
 # selecctions = []
 
 @app.route('/')

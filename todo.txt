@@ -12,6 +12,7 @@ Phase 1: Select "best" book from options, hosted with GCP
 
   work on gcp UI
     figure out how to produce nice webpages instead of just returning text
+      https://www.freecodecamp.org/news/how-to-build-a-web-app-using-pythons-flask-and-google-app-engine-52b1bb82b221/
 
   create test data set of books that i already own
     <- this will be used to measure the performance of the algorithm
