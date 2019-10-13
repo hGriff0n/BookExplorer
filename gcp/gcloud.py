@@ -5,7 +5,7 @@ logging_client = google.cloud.logging.Client()
 
 # Connects the logger to the root logging handler; by default this captures
 # all logs at INFO level and higher
-# TODO: Is this actually working? Logs don't show up in the log viewer
+# NOTE: There's a bit of a delay before log messages become visible in the logs viewer
 logging_client.setup_logging()
 
 

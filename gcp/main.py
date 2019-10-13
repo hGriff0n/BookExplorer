@@ -4,7 +4,6 @@ import logging
 
 # Setup the database client
 from google.cloud import firestore
-
 db = firestore.Client()
 
 # Specify the server
