@@ -11,26 +11,25 @@ app = Flask(__name__)
 
 # Read configuration from the databasae
 config = db.collection('configuration')
-api_keys = config.document('api_keys').get()
+# TODO: Is there a better way of accesing this?
+api_keys = config.document('api_keys').get().to_dict()
 
-api_keys = api_keys.to_dict()
-GOODREADS_API_KEY = api_keys['GOODREADS_API_KEY']
-GOODREADS_SECRET_VALUE = api_keys['GOODREADS_API_SECRET']
+GOODREADS_API_KEY = api_keys['goodreads']['API_KEY']
+GOODREADS_SECRET_VALUE = api_keys['goodreads']['SECRET']
 
 # Initialize the goodreads client
 import goodreads_api as goodreads
 gc = goodreads.Client(GOODREADS_API_KEY, GOODREADS_SECRET_VALUE)
 
-try:
-    open('../choices.csv')
-except Exception:
-    gcloud.error_client.report_exception()
+# Get all "test" choices
+choices = [gc.book(isbn=isbn) for isbn in config.document('choices').get().to_dict()['isbn']]
 
 @app.route('/')
 def hello():
     # gcloud.error_client.report("An error has occurred")
     # return str(gc.book(isbn='978-0241351574'))
-    return '<br>'.join(str(book) for book in gc.get_list(81192485))
+    # return '<br>'.join(str(book) for book in gc.get_list(81192485))
+    return '<br>'.join(str(book) for book in choices)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

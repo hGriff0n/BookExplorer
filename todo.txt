@@ -12,18 +12,12 @@ Phase 1: Select "best" book from options, hosted with GCP
 
   setting up in gcp
     how do i set deployment to not automatically forward all traffic to new deployment
-    securely store API KEYS
-      <- look at subcollections to organize the api_keys a little bit more
-    might need to move `choices.csv` to firestore?
-      <- need way of reading from the file
 
   architecture gcp project
     service flow (particularly with goodreads querying)
       <- need to cache goodreads results
       <- need to be flexible to allow for ml work in the future
 
-  organize code to better accomodate gcp
-    make experimental/docs/lib folders and move everything into there
   work on gcp UI
     figure out how to produce nice webpages instead of just returning text
   setup privacy protection and security "stuff" on the project
@@ -35,6 +29,7 @@ Phase 1: Select "best" book from options, hosted with GCP
     first remove the "remove test books" code
     buy the book that gets recommended from it
   integrate with caching/storage to maintain user data between requests
+    <- change system to not have everything hard-coded for me
   allow for specifying a different set of options
 
 Phase 2: Select "best" book (user doesn't give set of options)
