@@ -16,11 +16,15 @@ api_keys = config.document('api_keys').get()
 api_keys = api_keys.to_dict()
 GOODREADS_API_KEY = api_keys['GOODREADS_API_KEY']
 GOODREADS_SECRET_VALUE = api_keys['GOODREADS_API_SECRET']
-logging.info("Goodreads api: {} - {}".format(GOODREADS_API_KEY, GOODREADS_SECRET_VALUE))
 
 # Initialize the goodreads client
 import goodreads_api as goodreads
 gc = goodreads.Client(GOODREADS_API_KEY, GOODREADS_SECRET_VALUE)
+
+try:
+    open('../choices.csv')
+except Exception:
+    gcloud.error_client.report_exception()
 
 @app.route('/')
 def hello():
