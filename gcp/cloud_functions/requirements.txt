@@ -1,0 +1,15 @@
+Flask==1.1.1
+
+# Google Cloud APIs
+#google-python-cloud-debugger
+#google-cloud-profiler
+#google-cloud-logging
+#google-cloud-error-reporting
+google-cloud-firestore
+
+# Goodreads APIs
+Goodreads
+
+# Tensorflow APIs
+#tensorflow==1.13.1
+#tensorflow-hub==0.2

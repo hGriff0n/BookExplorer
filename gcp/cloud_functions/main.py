@@ -14,11 +14,8 @@ GOODREADS_SECRET_VALUE = api_keys['goodreads']['SECRET']
 gc = goodreads.Client(GOODREADS_API_KEY, GOODREADS_SECRET_VALUE)
 
 
-def hello_pubsub(_event, _context):
-    """Triggered from a message on a Cloud Pub/Sub topic.
-    Args:
-         event (dict): Event payload.
-         context (google.cloud.functions.Context): Metadata for the event.
+def precompute_sampler(_event, _context):
+    """Sample the data which needs to be precomputed and push it to the precompute function
     """
     isbns = [(book.isbn, book.description) for book in gc.get_list(81192485)]
     isbns.extend(

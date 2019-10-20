@@ -9,3 +9,7 @@ google-cloud-firestore
 
 # Goodreads APIs
 Goodreads
+
+# Tensorflow APIs
+tensorflow==1.13.1
+tensorflow-hub==0.2
