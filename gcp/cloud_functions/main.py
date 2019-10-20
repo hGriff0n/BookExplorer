@@ -1,5 +1,6 @@
 # import base64
 # import json
+import collections
 import goodreads_api as goodreads
 from google.cloud import firestore
 
@@ -14,15 +15,23 @@ GOODREADS_SECRET_VALUE = api_keys['goodreads']['SECRET']
 gc = goodreads.Client(GOODREADS_API_KEY, GOODREADS_SECRET_VALUE)
 
 
+def sanitize_isbn(isbn, title):
+    if isinstance(isbn, collections.OrderedDict):
+        print("Sanitizing isbn for book `{}` as it is an ordered dict".format(title))
+        return None
+    return str(isbn)
+
 def precompute_sampler(_event, _context):
-    """Sample the data which needs to be precomputed and push it to the precompute function
     """
-    isbns = [(book.isbn, book.description) for book in gc.get_list(81192485)]
-    isbns.extend(
-        (isbn, gc.book(isbn=isbn).description) for isbn in tests['items']
-    )
+    Sample the data which needs to be precomputed and push it to the precompute function
+    """
+    isbns = [(sanitize_isbn(book.isbn, book.title), book.description) for book in gc.get_list(81192485)]
+    for isbn in tests['items']:
+        book = gc.book(isbn=isbn)
+        isbn = sanitize_isbn(isbn, book.title)
+        isbns.append(isbn, book.description)
 
     # Write the data to firestore to see that it's working
     # TODO(eventually): Write to pubsub topic instead
-    for isbn, desc in isbns:
+    for isbn, desc in filter(lambda n: n is not None, isbns):
         config.document('all').set({isbn: desc}, merge=True)
