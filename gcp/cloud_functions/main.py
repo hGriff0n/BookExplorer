@@ -24,5 +24,5 @@ def precompute_sampler(_event, _context):
 
     # Write the data to firestore to see that it's working
     # TODO(eventually): Write to pubsub topic instead
-    for isbn, desc in isbns.items():
+    for isbn, desc in isbns:
         config.document('all').set({isbn: desc}, merge=True)
