@@ -22,6 +22,14 @@ def sanitize_isbn(isbn, title):
         return None
     return str(isbn)
 
+def sanitize_desc(desc):
+    if desc is None:
+        return desc
+
+    cleanr = re.compile('<.*?>')
+    return re.sub(cleanr, '', desc)
+
+
 def precompute_sampler(_event, _context):
     """
     Sample the data which needs to be precomputed and push it to the precompute function
@@ -39,4 +47,4 @@ def precompute_sampler(_event, _context):
     # Write the data to firestore to see that it's working
     # TODO(eventually): Write to pubsub topic instead
     for isbn, desc in filter(lambda n: n is not None, isbns):
-        config.document('all').set({isbn: desc}, merge=True)
+        config.document('all').set({isbn: sanitize_desc(desc)}, merge=True)
