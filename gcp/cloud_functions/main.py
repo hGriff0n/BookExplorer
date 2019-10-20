@@ -29,7 +29,7 @@ def precompute_sampler(_event, _context):
     for isbn in tests['items']:
         book = gc.book(isbn=isbn)
         isbn = sanitize_isbn(isbn, book.title)
-        isbns.append(isbn, book.description)
+        isbns.append((isbn, book.description))
 
     # Write the data to firestore to see that it's working
     # TODO(eventually): Write to pubsub topic instead
