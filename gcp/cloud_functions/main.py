@@ -3,6 +3,7 @@
 import collections
 import goodreads_api as goodreads
 from google.cloud import firestore
+import re
 
 # Initialize the firestore and goodreads clients
 db = firestore.Client()
