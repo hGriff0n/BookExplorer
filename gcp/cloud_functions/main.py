@@ -6,11 +6,6 @@ from google.cloud import firestore
 from google.cloud import pubsub_v1
 import json
 import re
-import tensorflow as tf
-import tensorflow_hub as tf_hub
-
-# Start the caching of the tensorflow data set
-embed_module = tf_hub.Module("https://tfhub.dev/google/universal-sentence-encoder/2")
 
 # Initialize the firestore and goodreads clients
 db = firestore.Client()
@@ -61,11 +56,6 @@ def publish(message, topic_path):
     return future
 
 
-# Prepare the tensorflow embedding flow
-placeholder = tf.placeholder(dtype=tf.string)
-embed = embed_module(placeholder)
-
-
 def precompute_sampler(_event, _context):
     """
     Sample the data which needs to be precomputed and push it to the precompute function
@@ -87,7 +77,4 @@ def precompute_sampler(_event, _context):
     for isbn, desc in filter(lambda n: n is not None, isbns):
         # pubsub_futures[isbn] = publish({isbn: sanitize_desc(desc)}, topic_path)
         descript = sanitize_desc(desc)
-        # config.document('all').set({isbn: descript}, merge=True)
-        config.document('embed').set({
-            isbn: session.run(embed, feed_dict={placeholder: descript})
-        })
+        config.document('all').set({isbn: descript}, merge=True)

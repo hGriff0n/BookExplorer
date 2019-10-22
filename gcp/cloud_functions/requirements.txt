@@ -12,5 +12,5 @@ google-cloud-pubsub
 Goodreads
 
 # Tensorflow APIs
-tensorflow==1.13.1
-tensorflow-hub==0.2
+#tensorflow==1.13.1
+#tensorflow-hub==0.2
