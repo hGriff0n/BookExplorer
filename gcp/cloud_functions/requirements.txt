@@ -6,10 +6,11 @@ Flask==1.1.1
 #google-cloud-logging
 #google-cloud-error-reporting
 google-cloud-firestore
+google-cloud-pubsub
 
 # Goodreads APIs
 Goodreads
 
 # Tensorflow APIs
-#tensorflow==1.13.1
-#tensorflow-hub==0.2
+tensorflow==1.13.1
+tensorflow-hub==0.2
