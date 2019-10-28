@@ -18,14 +18,16 @@ Phase 1: Select "best" book from options, hosted with GCP
     <- this will be used to measure the performance of the algorithm
     <- need a balance of unique and similar titles
       <- can even pick titles i don't have but know are similar/different if i need more data
-  create system that reads everything from goodreads every time
+  test system against "test" dataset
     automatically remove test books from the "library" information
+    ensure that it rates similar books low and dissimilar high
   test system against "choices.csv" dataset
     first remove the "remove test books" code
     buy the book that gets recommended from it
   integrate with caching/storage to maintain user data between requests
     <- change system to not have everything hard-coded for me
   allow for specifying a different set of options
+  there should be a way to easily reuse python modules across cloud functions and the server
 
 Phase 2: Select "best" book (user doesn't give set of options)
   can still maintain the ability to restrict to a list
