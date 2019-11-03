@@ -3,12 +3,15 @@ The goal of this project is to produce a recommendation engine that recommends b
 based on whether similar topics already exist in the user's library or not. Ideally,
 the recommended book should be on a completely "new" topic to the user.
 
+Phase 0: Produce a sample algorithm outside of GCP
+  a -> Move to GCP
+  b -> Start improving recommendation algorithm (understand what "different" means)
+
 Phase 1: Select "best" book from options, hosted with GCP
   "best" is to be considered as "least similar" of the options
   can be possibly done with a simple heuristic, minimal ml at worst
   <- learn about recommendation systems and how they typically represent the problem
   <- improve organization of these "phase" lists with todo integration (separate "plan" folder?)
-
 
   work on gcp UI
     figure out how to produce nice webpages instead of just returning text
